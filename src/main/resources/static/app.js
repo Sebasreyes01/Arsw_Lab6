@@ -58,6 +58,8 @@ var app = (function () {
             stompClient.disconnect();
         }
         console.log("Disconnected");
+        var button = document.getElementById("button");
+        button.setAttribute("disabled", "true");
     };
 
 
