@@ -50,7 +50,8 @@ var app = (function () {
         var pt=new Point(x,y);
         console.info("publishing point at "+pt);
         _addPointToCanvas(pt);
-        stompClient.send("/topic/newpoint." + id, {}, JSON.stringify(pt));
+        // stompClient.send("/topic/newpoint." + id, {}, JSON.stringify(pt));
+        stompClient.send("/app/newpoint." + id, {}, JSON.stringify(pt));
     };
 
     var disconnect = function () {
