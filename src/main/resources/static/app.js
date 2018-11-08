@@ -16,6 +16,18 @@ var app = (function () {
         ctx.arc(point.x, point.y, 1, 0, 2 * Math.PI);
         ctx.stroke();
     };
+
+    var _addPolygonToCanvas = function (polygon) {
+        var c2 = canvas.getContext('2d');
+        c2.fillStyle = '#f00';
+        c2.beginPath();
+        c2.moveTo(polygon[0].x, polygon[0].y);
+        for(var i = 1; i < polygon.length;i++) {
+            c2.lineTo(polygon[i].x, polygon[i].y);
+        }
+        c2.closePath();
+        c2.fill();
+    };
     
     
     var _getMousePosition = function (evt) {
@@ -42,6 +54,10 @@ var app = (function () {
                 _addPointToCanvas(pnt);
                 // alert("x: " + coordinates.x + ", y: " + coordinates.y);
             });
+            stompClient.subscribe('/topic/newpolygon.' + id, function (eventbody) {
+                var polygonCoordiantes=JSON.parse(eventbody.body);
+                _addPolygonToCanvas(polygonCoordiantes);
+            });
         });
 
     };
@@ -61,6 +77,8 @@ var app = (function () {
         console.log("Disconnected");
         var button = document.getElementById("button");
         button.setAttribute("disabled", "true");
+        var input = document.getElementById("ID");
+        input.setAttribute("disabled","true");
     };
 
 
